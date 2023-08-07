@@ -11,40 +11,37 @@ export const meta: V2_MetaFunction = () => {
 
 export default function Index() {
   const [input, setInput] = React.useState<string>('');
-  const [binaryString, setBinaryString] = React.useState<string>('0');
+  const [binaryString, setBinaryString] = React.useState<string>('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
   };
   const handleInputSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      const isBinary = /^0b[01]+$|^[01]+$/.test(input);
+      const newInput = input.replace(/\..*/g, '')
+      const isBinary = /^0b[01]+$/.test(newInput);
 
       if (isBinary) {
-        setBinaryString(input.replace(/^0b/, ''));
-      } else if (!isNaN(Number(input))) {
-        setBinaryString(Math.round(Number(input)).toString(2));
+        setBinaryString(newInput.replace(/^0b/, ''));
       } else {
-        setBinaryString('0');
+        try {
+          const bigint = BigInt(newInput);
+          setBinaryString(bigint.toString(2));
+        } catch (e) {
+          setBinaryString('Error');
+        }
       }
-
-      setInput('');
     }
   };
 
-  const displayNumber = binaryString === '0' ? 'Invalid Input' : parseInt(binaryString, 2);
-  // Split binary string into groups of 64
-  const bitGroups = binaryString.split('').reverse().join('').match(/.{1,32}/g) || [];
-  useEffect(() => {
-    console.log('BitGroups:', bitGroups);
-    console.log({ binaryString })
-  }, [bitGroups]);
+  const title = binaryString === '' ? 'Enter a number' : /[^01]/g.test(binaryString) ? 'Invalid input' : BigInt("0b0" + binaryString).toString(10);
+  const bits = binaryString.replace(/[^[01]/g, '').split('').reverse();
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-primary text-white">
-      {/* <h1 className="text-5xl mb-10">{displayNumber}</h1> */}
-      <div className="flex items-baseline">
-        <h1 className="text-5xl mb-10">{displayNumber}</h1>
-        <sub className="ml-1">10</sub>
+    <div className="flex flex-col items-center justify-center min-h-screen max-w-full bg-primary text-white">
+      <div className="flex items-baseline max-w-full overflow-auto">
+        <h1 className="text-5xl mb-10">{title}</h1>
+        <sub data-error={!/^\d+$/.test(title)} className="ml-1 data-[error=true]:hidden">10</sub>
       </div>
       <input
         className="outline-none p-2 rounded-md shadow-sm bg-secondary"
@@ -52,15 +49,13 @@ export default function Index() {
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleInputSubmit}
-        placeholder="Enter your number"
+        placeholder="e.g. 0xff or 0b11 or 255"
       />
-      {bitGroups.map((group, groupIndex) => (
-        <div className="mt-10 grid grid-cols-32 gap-2 justify-end" key={groupIndex}>
-          {group.split('').reverse().map((bit, index) => (
-            <BinaryCell bit={bit} power={groupIndex * 32 + (group.length - index - 1)} key={index} />
-          ))}
-        </div>
-      ))}
-    </div>
+      <div className="mt-10 grid gap-2 binary-grid">
+        {bits.map((bit, index) => (
+          <BinaryCell bit={bit} power={index} key={index} />
+        ))}
+      </div>
+    </div >
   );
 }
