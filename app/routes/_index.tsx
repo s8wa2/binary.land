@@ -17,10 +17,10 @@ export default function Index() {
   };
   const handleInputSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      const newInput = input.replace(/\..*/g, '')
+      const newInput = input.replace(/\..*/g, '').replace(/-/g, '');
       const isBinary = /^0b[01]+$/.test(newInput);
-
-      if (isBinary) {
+      if (newInput === '') setBinaryString('');
+      else if (isBinary) {
         setBinaryString(newInput.replace(/^0b/, ''));
       } else {
         try {
