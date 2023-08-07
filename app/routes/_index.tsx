@@ -4,8 +4,7 @@ import BinaryCell from "~/components/binaryCell";
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Binary land" },
   ];
 };
 
