@@ -2,16 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (min-width: 1600px) {
-    .grid-cols-32 {
-        grid-template-columns: repeat(32, minmax(0, 1fr));
-        /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
+.binary-grid {
+    grid-template-columns: repeat(4, 1fr);
+    direction: rtl;
+}
+
+@media (min-width: 400px) {
+    .binary-grid {
+        grid-template-columns: repeat(8, 1fr);
     }
 }
 
-@media (min-width: 1280px) {
-    .grid-cols-24 {
-        grid-template-columns: repeat(24, minmax(0, 1fr));
-        /* grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); */
+@media (min-width: 800px) {
+    .binary-grid {
+        grid-template-columns: repeat(16, 1fr);
+    }
+}
+
+@media (min-width: 1600px) {
+    .binary-grid {
+        grid-template-columns: repeat(32, 1fr);
     }
 }
