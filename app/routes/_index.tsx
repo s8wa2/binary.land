@@ -1,11 +1,9 @@
-import type { V2_MetaFunction } from "@remix-run/cloudflare";
-import React, { useEffect } from "react";
-import BinaryCell from "~/components/binaryCell";
+import type { V2_MetaFunction } from '@remix-run/cloudflare';
+import React, { useEffect } from 'react';
+import BinaryCell from '~/components/binaryCell';
 
 export const meta: V2_MetaFunction = () => {
-  return [
-    { title: "Binary land" },
-  ];
+  return [{ title: 'Binary land' }];
 };
 
 export default function Index() {
@@ -33,28 +31,47 @@ export default function Index() {
     }
   };
 
-  const title = binaryString === '' ? 'Enter a number' : /[^01]/g.test(binaryString) ? 'Invalid input' : BigInt("0b0" + binaryString).toString(10);
-  const bits = binaryString.replace(/[^[01]/g, '').split('').reverse();
+  const title =
+    binaryString === ''
+      ? 'Enter a number'
+      : /[^01]/g.test(binaryString)
+      ? 'Invalid input'
+      : BigInt('0b0' + binaryString).toString(10);
+  const bits = binaryString
+    .replace(/[^[01]/g, '')
+    .split('')
+    .reverse();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen max-w-full bg-primary text-white">
-      <div className="flex items-baseline max-w-full overflow-auto">
-        <h1 className="text-5xl mb-10">{title}</h1>
-        <sub data-error={!/^\d+$/.test(title)} className="ml-1 data-[error=true]:hidden">10</sub>
+    <div className='flex flex-col items-center justify-center min-h-screen max-w-full bg-primary text-white'>
+      <div className='opacity-20 left-0 bottom-0 fixed select-none'>
+        <div className='flex items-baseline max-w-sm overflow-hidden'>
+          <p className='text-5xl'>v</p>
+          <h1 className='text-7xl'>1.0.0</h1>
+        </div>
+      </div>
+      <div className='flex items-baseline max-w-full overflow-auto'>
+        <h1 className='text-5xl mb-10'>{title}</h1>
+        <sub
+          data-error={!/^\d+$/.test(title)}
+          className='ml-1 data-[error=true]:hidden'
+        >
+          10
+        </sub>
       </div>
       <input
-        className="outline-none p-2 rounded-md shadow-sm bg-secondary"
-        type="text"
+        className='outline-none p-2 rounded-md shadow-sm bg-secondary'
+        type='text'
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleInputSubmit}
-        placeholder="e.g. 0xff or 0b11 or 255"
+        placeholder='e.g. 0xff or 0b11 or 255'
       />
-      <div className="mt-10 grid gap-2 binary-grid">
+      <div className='mt-10 grid gap-2 binary-grid'>
         {bits.map((bit, index) => (
           <BinaryCell bit={bit} power={index} key={index} />
         ))}
       </div>
-    </div >
+    </div>
   );
 }
