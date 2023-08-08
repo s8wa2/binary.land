@@ -1,5 +1,5 @@
 import type { V2_MetaFunction } from '@remix-run/cloudflare';
-import React, { useEffect } from 'react';
+import React from 'react';
 import BinaryCell from '~/components/binaryCell';
 
 export const meta: V2_MetaFunction = () => {
