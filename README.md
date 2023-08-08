@@ -1,6 +1,14 @@
-# Welcome to Remix!
+# Binary land
 
-- [Remix Docs](https://remix.run/docs)
+A general purpose bit visualization and manipulation tool.
+
+## Purpose
+
+To create a tool that can be used to manipulate numbers / binary data. Meant as a replacement to current means (e.g. python in a terminal) of quickly examining, extracting, comparing, or setting specific bits.
+
+## TODO
+
+See [TODO.md](TODO.md)
 
 ## Development
 
