@@ -5,7 +5,7 @@ import { getClientIPAddress } from "remix-utils";
 export async function loader({ params, request, context }: LoaderArgs) {
   const { env } = context;
   const { link } = params;
-  if (!link) {
+  if (!link || typeof link !== 'string') {
     throw new Response(null, {
       status: 404,
     })
@@ -30,7 +30,7 @@ export async function loader({ params, request, context }: LoaderArgs) {
       status: 404,
     })
   }
-  const url = (env as Record<string, string>)[`LINKS_${link.toUpperCase()}`];
+  const url = (env as Record<string, string | undefined>)[`LINKS_${link.toUpperCase()}`];
   if (!url) {
     throw new Response(null, {
       status: 404,
