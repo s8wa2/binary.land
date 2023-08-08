@@ -38,6 +38,12 @@ export default function Index() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen max-w-full bg-primary text-white">
+      <div className="opacity-20 left-0 bottom-0 fixed select-none">
+        <div className="flex items-baseline max-w-sm overflow-hidden">
+          <p className="text-5xl">v</p>
+          <h1 className="text-7xl">1.0.0</h1>
+        </div>
+      </div>
       <div className="flex items-baseline max-w-full overflow-auto">
         <h1 className="text-5xl mb-10">{title}</h1>
         <sub data-error={!/^\d+$/.test(title)} className="ml-1 data-[error=true]:hidden">10</sub>
