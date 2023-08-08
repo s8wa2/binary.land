@@ -1,4 +1,5 @@
 {
+  "description": "A general purpose bit visualization and manipulation tool.",
   "private": true,
   "sideEffects": false,
   "type": "module",
