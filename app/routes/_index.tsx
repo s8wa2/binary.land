@@ -88,7 +88,12 @@ export default function Index() {
       {/* Bit cells */}
       <div className='mt-10 grid gap-2 binary-grid'>
         {bits.map((bit, index) => (
-          <BinaryCell bit={bit} power={index} key={bit + index} onclick={e => toggleBit(index)} />
+          <BinaryCell
+            bit={bit}
+            power={index}
+            key={bit + index}
+            onclick={(e) => toggleBit(index)}
+          />
         ))}
       </div>
     </div>
