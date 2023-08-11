@@ -128,7 +128,7 @@ export default function Index() {
         {/* Version */}
         <div className='flex items-baseline max-w-sm overflow-hidden'>
           <p className='text-5xl'>v</p>
-          <h1 className='text-7xl'>1.0.0</h1>
+          <h1 className='text-7xl'>1.1.0</h1>
         </div>
       </div>
       {/*  Title */}
