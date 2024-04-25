@@ -117,8 +117,9 @@ export default function Index() {
     }
   }, [binaryString]);
 
-  const bits = binaryString
-    .replace(/[^[01]/g, '')
+  const bitsTemp = binaryString.replace(/[^[01]/g, '');
+  const bits = bitsTemp
+    .padStart(16 - (bitsTemp.length % 16) + bitsTemp.length, '0')
     .split('')
     .reverse() as ('0' | '1')[];
 
