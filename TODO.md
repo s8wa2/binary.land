@@ -5,7 +5,6 @@ A general purpose bit visualization and manipulation tool.
 
 ### Todo
 
-- [ ] Select specific bit range
 
 ### In progress
 
@@ -14,6 +13,9 @@ A general purpose bit visualization and manipulation tool.
   - [x] Fix max safe integer limit via bigint
   - [ ] Add support for floating point numbers
   - [ ] Add support for negative numbers
+- [x] Select specific bit range
+  - [ ] Mobile support
+  - [ ] Highlight selected bits w/ user defined color
 
 ### Completed ✓
 
