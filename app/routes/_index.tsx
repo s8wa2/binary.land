@@ -124,7 +124,7 @@ export default function Index() {
     bitsTemp.length == 0
       ? []
       : (bitsTemp
-          .padStart(16 - (bitsTemp.length % 16) + bitsTemp.length, '0')
+          .padStart(32 - (bitsTemp.length % 32) + bitsTemp.length, '0')
           .split('')
           .reverse() as ('0' | '1')[]);
 
