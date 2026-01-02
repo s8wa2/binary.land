@@ -22,7 +22,7 @@ export default function Index() {
   // User input
   const [input, setInput] = React.useState<string>('');
   // Bits extracted from user input
-  const [binaryString, setBinaryString] = React.useState<string>('');
+  const [binaryNum, setBinaryNum] = React.useState<bigint>(0n);
   const [selectedCells, setSelectedCells] = React.useState<selection>({
     startIndex: null,
     endIndex: null,
@@ -48,29 +48,27 @@ export default function Index() {
       const newInput = input.replace(/\..*/g, '').replace(/-/g, ''); // Remove decimal and negative sign
       const isBinary = /^0b[01]+$/.test(newInput);
       if (newInput === '') {
-        setBinaryString('');
+        setBinaryNum(0n);
         setTitle('Enter a number');
       } else if (isBinary) {
-        setBinaryString(newInput.replace(/^0b/, '')); // Don't convert if already binary
+        setBinaryNum(BigInt(newInput));
       } else {
         try {
           // Convert from other base to binary
           const bigint = BigInt(newInput);
-          setBinaryString(bigint.toString(2));
+          setBinaryNum(bigint);
           setTitle(bigint.toString(10));
         } catch (e) {
-          setBinaryString('');
+          setBinaryNum(0n);
           setTitle('Invalid input');
         }
       }
     }
   };
-  const toggleBit = (power: number, reverse = false) => {
-    const bits = binaryString.split('');
-    const reverseIndex = bits.length - power - 1;
-    bits[reverse ? reverseIndex : power] =
-      bits[reverse ? reverseIndex : power] === '0' ? '1' : '0';
-    setBinaryString(bits.join(''));
+  const toggleBit = (power: number) => {
+    const mask = 1n << BigInt(power);
+    console.log({ binaryNum, power, mask });
+    setBinaryNum((oldNum) => oldNum ^ mask);
   };
 
   const handleMouseUp = (index: number) => {
@@ -83,7 +81,7 @@ export default function Index() {
     if (selectedCells.startIndex === index) {
       selectedCells.startIndex = null;
       selectedCells.endIndex = null;
-      toggleBit(index, true);
+      toggleBit(index);
       return;
     }
     const lower = Math.min(index, selectedCells.startIndex);
@@ -111,22 +109,28 @@ export default function Index() {
   };
 
   React.useEffect(() => {
-    // Only update title if binaryString is valid
-    if (/^[01]+$/g.test(binaryString)) {
-      const bigint = BigInt('0b0' + binaryString);
-      setTitle(bigint.toString(10));
+    setTitle(binaryNum.toString(10));
+  }, [binaryNum]);
+
+  const bits = [];
+  // Generate bits from binaryNum no max bits
+  {
+    let n = binaryNum;
+    if (n === 0n) {
+      bits.push('0');
+    } else {
+      while (n > 0n) {
+        bits.push((n & 1n) === 1n ? '1' : '0');
+        n >>= 1n;
+      }
     }
-  }, [binaryString]);
+    // Pad to multiple of 32 bits
+    while (bits.length % 32 !== 0) {
+      bits.push('0');
+    }
+  }
 
-  const bitsTemp = binaryString.replace(/[^[01]/g, '');
-  const bits =
-    bitsTemp.length == 0
-      ? []
-      : (bitsTemp
-          .padStart(32 - (bitsTemp.length % 32) + bitsTemp.length, '0')
-          .split('')
-          .reverse() as ('0' | '1')[]);
-
+  const binaryString = bits.slice().reverse().join('');
   return (
     <div className='flex flex-col items-center justify-center min-h-screen max-w-full bg-primary text-white'>
       <div className='m-4 opacity-20 left-0 bottom-0 fixed select-none'>
