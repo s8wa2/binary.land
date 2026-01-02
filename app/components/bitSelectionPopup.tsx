@@ -1,4 +1,4 @@
-import { modalSettings, selection } from '~/routes/_index';
+import type { modalSettings, selection } from '~/routes/_index';
 import { formatString } from '~/utils/utils';
 
 export const BitSelectionPopup = ({
